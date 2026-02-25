@@ -20,7 +20,7 @@
                 <div class="card text-center">
                     <div class="card-header">
                         <span class="badge text-bg-warning fs-2">ĐIỆN</span><br>
-                        <span class="fw-bold fs-3">3,500</span><br>
+                        <span class="fw-bold fs-3">3.500</span><br>
                         <span class="text-secondary">VND / Số</span>
                     </div>
                     <div class="card-body">
@@ -51,7 +51,7 @@
                 <div class="card text-center">
                     <div class="card-header">
                         <span class="badge text-bg-primary fs-2">NƯỚC</span><br>
-                        <span class="fw-bold fs-3">3,500</span><br>
+                        <span class="fw-bold fs-3">3.500</span><br>
                         <span class="text-secondary">VND / Số</span>
                     </div>
                     <div class="card-body">
@@ -95,7 +95,7 @@
                 <div class="card text-center">
                     <div class="card-header">
                         <span class="badge text-bg-secondary fs-2">RÁC</span><br>
-                        <span class="fw-bold fs-3">3,500</span><br>
+                        <span class="fw-bold fs-3">3.500</span><br>
                         <span class="text-secondary">VND / Căn</span>
                     </div>
                     <div class="card-footer">
@@ -135,16 +135,16 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col">
-                                    <button class="btn btn-outline-primary fs-3" data-bs-toggle="button" type="button"
-                                        style="height: 65px; width: 80%;">
-                                        1,500,000
+                                    <button class="btn btn-outline-primary fs-3 gia-thue-choice" type="button"
+                                        style="height: 65px; width: 80%;" onclick="processGiaThueChoice(this)">
+                                        1.500.000
                                     </button>
                                 </div>
 
                                 <div class="col">
-                                    <button class="btn btn-outline-primary fs-3" data-bs-toggle="button" type="button"
-                                        style="height: 65px; width: 80%;">
-                                        2,000,000
+                                    <button class="btn btn-outline-primary fs-3 gia-thue-choice" type="button"
+                                        style="height: 65px; width: 80%;" onclick="processGiaThueChoice(this)">
+                                        2.000.000
                                     </button>
                                 </div>
                             </div>
@@ -162,7 +162,7 @@
                                 </div>
 
                                 <div class="col-6">
-                                    <button type="button" class="btn btn-success w-100 fs-2">
+                                    <button type="button" class="btn btn-success w-100 fs-2" onclick="processGiaThue()">
                                         Tính tiền
                                     </button>
                                 </div>
@@ -179,29 +179,29 @@
                 <div class="card text-center">
                     <div class="card-header">
                         <span class="badge text-bg-secondary fs-2">TIỀN TRỌ</span><br>
-                        <span class="text-secondary fs-5">25/2/2026</span>
+                        <span class="text-secondary fs-5" id="bill-date"></span>
                     </div>
 
                     <div class="card-body">
                         <div class="row">
                             <div class="input-group mb-2">
                                 <span class="input-group-text" style="width: 75px;">ĐIỆN</span>
-                                <span class="input-group-text">0</span>
-                                <input type="text" class="form-control text-end">
+                                <span class="input-group-text" id="bill-so-dien"></span>
+                                <input type="text" class="form-control text-end" id="bill-tien-dien" disabled>
                                 <span class="input-group-text">VND</span>
                             </div>
 
                             <div class="input-group mb-2">
                                 <span class="input-group-text" style="width: 75px;">NƯỚC</span>
-                                <span class="input-group-text">0</span>
-                                <input type="text" class="form-control text-end">
+                                <span class="input-group-text" id="bill-so-nuoc"></span>
+                                <input type="text" class="form-control text-end" id="bill-tien-nuoc" disabled>
                                 <span class="input-group-text">VND</span>
                             </div>
 
                             <div class="input-group mb-2">
                                 <span class="input-group-text" style="width: 75px;">RÁC</span>
                                 <span class="input-group-text">1</span>
-                                <input type="text" class="form-control text-end">
+                                <input type="text" class="form-control text-end" id="bill-tien-rac" disabled>
                                 <span class="input-group-text">VND</span>
                             </div>
 
@@ -209,7 +209,7 @@
                             <div class="input-group">
                                 <span class="input-group-text" style="width: 75px;">THUÊ</span>
                                 <span class="input-group-text">1</span>
-                                <input type="text" class="form-control text-end">
+                                <input type="text" class="form-control text-end" id="bill-tien-thue" disabled>
                                 <span class="input-group-text">VND</span>
                             </div>
                         </div>
@@ -218,7 +218,7 @@
                     <div class="card-footer fs-5">
                         <div class="input-group">
                             <span class="input-group-text fw-bold" style="width: 75px;">TỔNG</span>
-                            <input type="text" class="form-control text-end">
+                            <input type="text" class="form-control text-end" id="bill-tong" disabled>
                             <span class="input-group-text">VND</span>
                         </div>
                     </div>
@@ -242,26 +242,18 @@
             document.getElementById(prevId).removeAttribute("hidden");
         }
 
-        function showAlert(msg) {
-            const thongBaoContainer = document.getElementById('thong-bao');
-            const thongBao = document.querySelector("#thong-bao .alert");
-
-            thongBaoContainer.removeAttribute("hidden");
-
-            setTimeout(() => {
-                thongBaoContainer.setAttribute("hidden", "");
-                thongBao.innerText = ""
-            }, 3000);
-
-            thongBao.innerText = msg;
-        }
-
         function processDien() {
             const soDienCu = document.getElementById("so-dien-cu").value;
             if (soDienCu === "") return alert("Chưa nhập số điện cũ!");
+            if (Number(soDienCu) < 0) return alert("Số điện lớn hơn hoặc bằng 0!");
 
             const soDienMoi = document.getElementById("so-dien-moi").value;
             if (soDienMoi === "") return alert("Chưa nhập số điện mới!");
+            if (Number(soDienMoi) < 0) return alert("Số điện lớn hơn hoặc bằng 0!");
+
+            if (!Number.isInteger(Number(soDienCu)) || !Number.isInteger(Number(soDienMoi))) return alert("Số điện phải là số nguyên!");
+
+            if (Number(soDienMoi) - Number(soDienCu) <= 0) return alert("Số điện mới phải lớn hơn số điện cũ!");
 
             nextModal("modal-dien", "modal-nuoc");
         }
@@ -269,11 +261,78 @@
         function processNuoc() {
             const soNuocCu = document.getElementById("so-nuoc-cu").value;
             if (soNuocCu === "") return alert("Chưa nhập số nước cũ!");
+            if (Number(soNuocCu) < 0) return alert("Số nước lớn hơn hoặc bằng 0!");
 
             const soNuocMoi = document.getElementById("so-nuoc-moi").value;
             if (soNuocMoi === "") return alert("Chưa nhập số nước mới!");
+            if (Number(soNuocMoi) < 0) return alert("Số nước lớn hơn hoặc bằng 0!");
+
+            if (!Number.isInteger(Number(soNuocCu)) || !Number.isInteger(Number(soNuocMoi))) return alert("Số nước phải là số nguyên!");
+
+            if (Number(soNuocMoi) - Number(soNuocCu) <= 0) return alert("Số nước mới phải lớn hơn số nước cũ!");
 
             nextModal("modal-nuoc", "modal-rac");
+        }
+
+        function processGiaThueChoice(element) {
+            if (element.classList.contains("active")) return;
+
+            element.classList.add("active");
+
+            const choices = document.querySelectorAll(".gia-thue-choice");
+
+            for (const e of choices) {
+                if (e === element) continue;
+
+                e.classList.remove("active");
+            }
+        }
+
+        function parseVND(num) {
+            return num.toLocaleString("vi-VN");
+        }
+
+        function calculatingResult() {
+            const DIEN_RATE = 3500;
+            const NUOC_RATE = 3500;
+            const RAC_RATE = 3500;
+
+            const soDienCu = document.getElementById("so-dien-cu").value;
+            const soDienMoi = document.getElementById("so-dien-moi").value;
+            const soDien = (Number(soDienMoi) - Number(soDienCu));
+            const tienDien = soDien * DIEN_RATE;
+
+            const soNuocCu = document.getElementById("so-nuoc-cu").value;
+            const soNuocMoi = document.getElementById("so-nuoc-moi").value;
+            const soNuoc = Number(soNuocMoi) - Number(soNuocCu);
+            const tienNuoc = soNuoc * NUOC_RATE;
+
+            const tienThue = Number(document.querySelector(".gia-thue-choice.active").innerText.replace(/\./g, ""));
+
+            const tong = tienDien + tienNuoc + RAC_RATE + tienThue;
+
+            const now = new Date();
+            document.getElementById("bill-date").innerText = `${now.toLocaleTimeString("vi-VN")} - ${now.toLocaleDateString("vi-VN")}`;
+
+            document.getElementById("bill-so-dien").innerText = soDien;
+            document.getElementById("bill-tien-dien").value = parseVND(tienDien);
+
+            document.getElementById("bill-so-nuoc").innerText = soNuoc;
+            document.getElementById("bill-tien-nuoc").value = parseVND(tienNuoc);
+
+            document.getElementById("bill-tien-rac").value = parseVND(RAC_RATE);
+            document.getElementById("bill-tien-thue").value = parseVND(tienThue);
+
+            document.getElementById("bill-tong").value = parseVND(tong);
+
+            nextModal("modal-thue", "modal-bill");
+        }
+
+        function processGiaThue() {
+            const choice = document.querySelector(".gia-thue-choice.active");
+            if (!choice) return alert("Chưa chọn giá thuê!");
+
+            calculatingResult();
         }
     </script>
 </body>
