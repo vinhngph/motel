@@ -15,7 +15,7 @@
 <body>
     <div class="container">
         <!-- ĐIỆN -->
-        <div class="row align-items-center" style="height: 100vh;" hidden>
+        <div class="row align-items-center" style="height: 100vh;" id="modal-dien">
             <div class="col">
                 <div class="card text-center">
                     <div class="card-header">
@@ -25,18 +25,19 @@
                     </div>
                     <div class="card-body">
                         <div class="input-group mb-3" style="height: 65px;">
-                            <input class="form-control" type="number" name="" placeholder="Số điện cũ"
-                                aria-describedby="so-dien-cu" aria-label="Số điện cũ" min="0" step="1">
-                            <span class="input-group-text" id="so-dien-cu">Số</span>
+                            <input class="form-control" type="number" placeholder="Số điện cũ" id="so-dien-cu"
+                                aria-label="Số điện cũ" min="0" step="1">
+                            <span class="input-group-text">Số</span>
                         </div>
                         <div class="input-group" style="height: 65px;">
-                            <input class="form-control" type="number" name="" placeholder="Số điện mới"
-                                aria-describedby="so-dien-moi" aria-label="Số điện mới" min="0" step="1">
-                            <span class="input-group-text" id="so-dien-moi">Số</span>
+                            <input class="form-control" type="number" placeholder="Số điện mới" id="so-dien-moi"
+                                aria-label="Số điện mới" min="0" step="1">
+                            <span class="input-group-text">Số</span>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button type="button" class="btn btn-outline-primary" style="width: 40%;">
+                        <button type="button" class="btn btn-outline-primary" style="width: 40%;"
+                            onclick="processDien()">
                             <i class="bi bi-arrow-right-circle fs-2"></i>
                         </button>
                     </div>
@@ -45,7 +46,7 @@
         </div>
 
         <!-- NƯỚC -->
-        <div class="row align-items-center" style="height: 100vh;" hidden>
+        <div class="row align-items-center" style="height: 100vh;" id="modal-nuoc" hidden>
             <div class="col">
                 <div class="card text-center">
                     <div class="card-header">
@@ -55,27 +56,28 @@
                     </div>
                     <div class="card-body">
                         <div class="input-group mb-3" style="height: 65px;">
-                            <input class="form-control" type="number" name="" placeholder="Số nước cũ"
-                                aria-describedby="so-dien-cu" aria-label="Số nước cũ" min="0" step="1">
-                            <span class="input-group-text" id="so-dien-cu">Số</span>
+                            <input class="form-control" type="number" placeholder="Số nước cũ" id="so-nuoc-cu"
+                                aria-label="Số nước cũ" min="0" step="1">
+                            <span class="input-group-text">Số</span>
                         </div>
                         <div class="input-group" style="height: 65px;">
-                            <input class="form-control" type="number" name="" placeholder="Số nước mới"
-                                aria-describedby="so-dien-moi" aria-label="Số nước mới" min="0" step="1">
-                            <span class="input-group-text" id="so-dien-moi">Số</span>
+                            <input class="form-control" type="number" placeholder="Số nước mới" id="so-nuoc-moi"
+                                aria-label="Số nước mới" min="0" step="1">
+                            <span class="input-group-text">Số</span>
                         </div>
                     </div>
                     <div class="card-footer">
                         <div class="container">
                             <div class="row">
                                 <div class="col-6">
-                                    <button type="button" class="btn btn-outline-secondary w-100">
+                                    <button type="button" class="btn btn-outline-secondary w-100"
+                                        onclick="prevModal('modal-dien', 'modal-nuoc')">
                                         <i class="bi bi-arrow-left-circle fs-2"></i>
                                     </button>
                                 </div>
 
                                 <div class="col-6">
-                                    <button type="button" class="btn btn-outline-primary w-100">
+                                    <button type="button" class="btn btn-outline-primary w-100" onclick="processNuoc()">
                                         <i class="bi bi-arrow-right-circle fs-2"></i>
                                     </button>
                                 </div>
@@ -88,7 +90,7 @@
         </div>
 
         <!-- RÁC -->
-        <div class="row align-items-center" style="height: 100vh;" hidden>
+        <div class="row align-items-center" style="height: 100vh;" id="modal-rac" hidden>
             <div class="col">
                 <div class="card text-center">
                     <div class="card-header">
@@ -100,13 +102,15 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col-6">
-                                    <button type="button" class="btn btn-outline-secondary w-100">
+                                    <button type="button" class="btn btn-outline-secondary w-100"
+                                        onclick="prevModal('modal-nuoc', 'modal-rac')">
                                         <i class="bi bi-arrow-left-circle fs-2"></i>
                                     </button>
                                 </div>
 
                                 <div class="col-6">
-                                    <button type="button" class="btn btn-outline-primary w-100">
+                                    <button type="button" class="btn btn-outline-primary w-100"
+                                        onclick="nextModal('modal-rac', 'modal-thue')">
                                         <i class="bi bi-arrow-right-circle fs-2"></i>
                                     </button>
                                 </div>
@@ -119,7 +123,7 @@
         </div>
 
         <!-- Thuê -->
-        <div class="row align-items-center" style="height: 100vh;" hidden>
+        <div class="row align-items-center" style="height: 100vh;" id="modal-thue" hidden>
             <div class="col">
                 <div class="card text-center">
                     <div class="card-header">
@@ -151,7 +155,8 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col-6">
-                                    <button type="button" class="btn btn-outline-secondary w-100">
+                                    <button type="button" class="btn btn-outline-secondary w-100"
+                                        onclick="prevModal('modal-rac', 'modal-thue')">
                                         <i class="bi bi-arrow-left-circle fs-2"></i>
                                     </button>
                                 </div>
@@ -163,14 +168,13 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- BILL -->
-        <div class="row align-items-center" style="height: 100vh;">
+        <div class="row align-items-center" style="height: 100vh;" id="modal-bill" hidden>
             <div class="col">
                 <div class="card text-center">
                     <div class="card-header">
@@ -226,6 +230,52 @@
     <script src="./assets/js/bootstrap.bundle.min.js"></script>
 
     <script src="./index.js"></script>
+
+    <script>
+        function nextModal(prevId, nextId) {
+            document.getElementById(prevId).setAttribute("hidden", "");
+            document.getElementById(nextId).removeAttribute("hidden");
+        }
+
+        function prevModal(prevId, currentId) {
+            document.getElementById(currentId).setAttribute("hidden", "");
+            document.getElementById(prevId).removeAttribute("hidden");
+        }
+
+        function showAlert(msg) {
+            const thongBaoContainer = document.getElementById('thong-bao');
+            const thongBao = document.querySelector("#thong-bao .alert");
+
+            thongBaoContainer.removeAttribute("hidden");
+
+            setTimeout(() => {
+                thongBaoContainer.setAttribute("hidden", "");
+                thongBao.innerText = ""
+            }, 3000);
+
+            thongBao.innerText = msg;
+        }
+
+        function processDien() {
+            const soDienCu = document.getElementById("so-dien-cu").value;
+            if (soDienCu === "") return alert("Chưa nhập số điện cũ!");
+
+            const soDienMoi = document.getElementById("so-dien-moi").value;
+            if (soDienMoi === "") return alert("Chưa nhập số điện mới!");
+
+            nextModal("modal-dien", "modal-nuoc");
+        }
+
+        function processNuoc() {
+            const soNuocCu = document.getElementById("so-nuoc-cu").value;
+            if (soNuocCu === "") return alert("Chưa nhập số nước cũ!");
+
+            const soNuocMoi = document.getElementById("so-nuoc-moi").value;
+            if (soNuocMoi === "") return alert("Chưa nhập số nước mới!");
+
+            nextModal("modal-nuoc", "modal-rac");
+        }
+    </script>
 </body>
 
 </html>
