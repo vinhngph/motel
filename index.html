@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <div class="container fs-5">
+    <div class="container fs-5 bg-secondary-subtle">
         <!-- ĐIỆN -->
         <div class="row align-items-center" style="height: 100vh;" id="modal-dien">
             <div class="col">
@@ -26,12 +26,14 @@
                     <div class="card-body">
                         <div class="input-group mb-3" style="height: 65px;">
                             <input class="form-control" type="number" placeholder="Số điện cũ" id="so-dien-cu"
-                                aria-label="Số điện cũ" min="0" step="1">
+                                aria-label="Số điện cũ" min="0" step="1" pattern="\d*" autocomplete="off"
+                                autocapitalize="off" autocorrect="off">
                             <span class="input-group-text">Số</span>
                         </div>
                         <div class="input-group" style="height: 65px;">
                             <input class="form-control" type="number" placeholder="Số điện mới" id="so-dien-moi"
-                                aria-label="Số điện mới" min="0" step="1">
+                                aria-label="Số điện mới" min="0" step="1" pattern="\d*" autocomplete="off"
+                                autocapitalize="off" autocorrect="off">
                             <span class="input-group-text">Số</span>
                         </div>
                     </div>
@@ -66,12 +68,14 @@
                     <div class="card-body">
                         <div class="input-group mb-3" style="height: 65px;">
                             <input class="form-control" type="number" placeholder="Số nước cũ" id="so-nuoc-cu"
-                                aria-label="Số nước cũ" min="0" step="1">
+                                aria-label="Số nước cũ" min="0" step="1" pattern="\d*" autocomplete="off"
+                                autocapitalize="off" autocorrect="off">
                             <span class="input-group-text">Số</span>
                         </div>
                         <div class="input-group" style="height: 65px;">
                             <input class="form-control" type="number" placeholder="Số nước mới" id="so-nuoc-moi"
-                                aria-label="Số nước mới" min="0" step="1">
+                                aria-label="Số nước mới" min="0" step="1" pattern="\d*" autocomplete="off"
+                                autocapitalize="off" autocorrect="off">
                             <span class="input-group-text">Số</span>
                         </div>
                     </div>
@@ -145,16 +149,16 @@
 
                     <div class="card-body">
                         <div class="container">
-                            <div class="row">
+                            <div class="row align-items-center">
                                 <div class="col">
-                                    <button class="btn btn-outline-primary fs-3 gia-thue-choice" type="button"
+                                    <button class="btn btn-outline-dark w-100 fs-3 gia-thue-choice" type="button"
                                         style="height: 65px; width: 80%;" onclick="processGiaThueChoice(this)">
                                         1.500.000
                                     </button>
                                 </div>
 
                                 <div class="col">
-                                    <button class="btn btn-outline-primary fs-3 gia-thue-choice" type="button"
+                                    <button class="btn btn-outline-dark w-100 fs-3 gia-thue-choice" type="button"
                                         style="height: 65px; width: 80%;" onclick="processGiaThueChoice(this)">
                                         2.000.000
                                     </button>
