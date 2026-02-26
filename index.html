@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container fs-5">
         <!-- ĐIỆN -->
         <div class="row align-items-center" style="height: 100vh;" id="modal-dien">
             <div class="col">
@@ -36,10 +36,19 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button type="button" class="btn btn-outline-primary" style="width: 40%;"
-                            onclick="processDien()">
-                            <i class="bi bi-arrow-right-circle fs-2"></i>
-                        </button>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col">
+                                    <button type="button" class="btn btn-outline-primary" style="width: 40%;"
+                                        onclick="processDien()">
+                                        <i class="bi bi-arrow-right-circle fs-2"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col dien notification"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -82,6 +91,10 @@
                                     </button>
                                 </div>
                             </div>
+
+                            <div class="row">
+                                <div class="col nuoc notification"></div>
+                            </div>
                         </div>
 
                     </div>
@@ -116,7 +129,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -166,6 +178,10 @@
                                         Tính tiền
                                     </button>
                                 </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col thue notification"></div>
                             </div>
                         </div>
                     </div>
@@ -242,34 +258,55 @@
             document.getElementById(prevId).removeAttribute("hidden");
         }
 
+        function notification(step, msg) {
+            const container = document.querySelector(`.${step}.notification`);
+
+            const content = document.createElement("div");
+            content.className = "alert alert-danger mt-3 mb-3";
+            content.role = "alert";
+            content.innerText = msg;
+
+            container.childNodes.forEach(e => e.remove());
+            container.appendChild(content);
+
+            setTimeout(() => {
+                content.remove();
+            }, 3000);
+        }
+
         function processDien() {
+            const step = "dien";
+
             const soDienCu = document.getElementById("so-dien-cu").value;
-            if (soDienCu === "") return alert("Chưa nhập số điện cũ!");
-            if (Number(soDienCu) < 0) return alert("Số điện lớn hơn hoặc bằng 0!");
+
+            if (soDienCu === "") return notification(step, "Chưa nhập số điện cũ!");
+            if (Number(soDienCu) < 0) return notification(step, "Số điện lớn hơn hoặc bằng 0!");
 
             const soDienMoi = document.getElementById("so-dien-moi").value;
-            if (soDienMoi === "") return alert("Chưa nhập số điện mới!");
-            if (Number(soDienMoi) < 0) return alert("Số điện lớn hơn hoặc bằng 0!");
+            if (soDienMoi === "") return notification(step, "Chưa nhập số điện mới!");
+            if (Number(soDienMoi) < 0) return notification(step, "Số điện lớn hơn hoặc bằng 0!");
 
-            if (!Number.isInteger(Number(soDienCu)) || !Number.isInteger(Number(soDienMoi))) return alert("Số điện phải là số nguyên!");
+            if (!Number.isInteger(Number(soDienCu)) || !Number.isInteger(Number(soDienMoi))) return notification(step, "Số điện phải là số nguyên!");
 
-            if (Number(soDienMoi) - Number(soDienCu) <= 0) return alert("Số điện mới phải lớn hơn số điện cũ!");
+            if (Number(soDienMoi) - Number(soDienCu) <= 0) return notification(step, "Số điện mới phải lớn hơn số điện cũ!");
 
             nextModal("modal-dien", "modal-nuoc");
         }
 
         function processNuoc() {
+            const step = "nuoc";
+
             const soNuocCu = document.getElementById("so-nuoc-cu").value;
-            if (soNuocCu === "") return alert("Chưa nhập số nước cũ!");
-            if (Number(soNuocCu) < 0) return alert("Số nước lớn hơn hoặc bằng 0!");
+            if (soNuocCu === "") return notification(step, "Chưa nhập số nước cũ!");
+            if (Number(soNuocCu) < 0) return notification(step, "Số nước lớn hơn hoặc bằng 0!");
 
             const soNuocMoi = document.getElementById("so-nuoc-moi").value;
-            if (soNuocMoi === "") return alert("Chưa nhập số nước mới!");
-            if (Number(soNuocMoi) < 0) return alert("Số nước lớn hơn hoặc bằng 0!");
+            if (soNuocMoi === "") return notification(step, "Chưa nhập số nước mới!");
+            if (Number(soNuocMoi) < 0) return notification(step, "Số nước lớn hơn hoặc bằng 0!");
 
-            if (!Number.isInteger(Number(soNuocCu)) || !Number.isInteger(Number(soNuocMoi))) return alert("Số nước phải là số nguyên!");
+            if (!Number.isInteger(Number(soNuocCu)) || !Number.isInteger(Number(soNuocMoi))) return notification(step, "Số nước phải là số nguyên!");
 
-            if (Number(soNuocMoi) - Number(soNuocCu) <= 0) return alert("Số nước mới phải lớn hơn số nước cũ!");
+            if (Number(soNuocMoi) - Number(soNuocCu) <= 0) return notification(step, "Số nước mới phải lớn hơn số nước cũ!");
 
             nextModal("modal-nuoc", "modal-rac");
         }
@@ -329,8 +366,10 @@
         }
 
         function processGiaThue() {
+            const step = "thue";
+
             const choice = document.querySelector(".gia-thue-choice.active");
-            if (!choice) return alert("Chưa chọn giá thuê!");
+            if (!choice) return notification(step, "Chưa chọn giá thuê!");
 
             calculatingResult();
         }
