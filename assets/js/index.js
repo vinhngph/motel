@@ -139,6 +139,7 @@ function addingFinalRow(...data) {
     tr.appendChild(tenNode);
 
     const tongNode = document.createElement("td");
+    tongNode.className = "text-end";
     tongNode.innerText = parseVND(data.reduce((acc, curr) => acc + curr, 0));
     tr.appendChild(tongNode);
 
@@ -183,6 +184,37 @@ function processGiaThue() {
     calculatingResult();
 }
 
+async function captureAndShare() {
+    try {
+        const now = new Date();
+        const date = now.toISOString();
+        const canvas = await html2canvas(document.getElementById("card-bill"));
+
+        canvas.toBlob(async (blob) => {
+            if (!blob) return;
+
+            const imageFile = new File([blob], `${date}.png`, { type: "image/png" });
+
+            const shareData = {
+                title: `Hoá đơn ${date}`,
+                files: [imageFile]
+            }
+
+            if (navigator.canShare && navigator.canShare(shareData)) {
+                try {
+                    await navigator.share(shareData);
+                } catch (err) {
+                    console.error(err);
+                }
+            } else {
+                alert("Không share được!");
+            }
+        }, "image/png");
+    } catch (err) {
+        console.error(err);
+    }
+}
+
 function reset() {
     document.getElementById("so-dien-cu").value = "";
     document.getElementById("so-dien-moi").value = "";
@@ -193,7 +225,7 @@ function reset() {
     document.querySelector(".gia-thue-choice.active")?.classList.remove("active");
     document.querySelector(".tien-rac.active")?.classList.remove("active");
 
-    document.getElementById("bill-table").childNodes.forEach(e => e.remove());
+    document.querySelector("#bill-table").replaceChildren();
 
     nextModal("modal-bill", "modal-dien");
 }

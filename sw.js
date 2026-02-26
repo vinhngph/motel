@@ -1,4 +1,4 @@
-const CACHE_NAME = "tro-muoi-v1";
+const CACHE_NAME = "tro-muoi-v1.1.1";
 
 const urlsToCache = [
     "/",

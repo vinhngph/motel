@@ -29,7 +29,7 @@
 </head>
 
 <body>
-    <div class="container fs-4 bg-secondary-subtle">
+    <div class="container-fluid fs-4 bg-secondary-subtle">
         <!-- ĐIỆN -->
         <div class="row align-items-center" style="height: 100vh;" id="modal-dien">
             <div class="col">
@@ -238,61 +238,12 @@
         <!-- BILL -->
         <div class="row align-items-center" style="height: 100vh;" id="modal-bill" hidden>
             <div class="col">
-                <!-- <div class="card text-center">
-                    <div class="card-header">
-                        <span class="badge text-bg-secondary fs-2 mb-1 mt-1">TIỀN TRỌ</span><br>
-                        <span class="text-secondary fs-5" id="bill-date"></span>
-                    </div>
-
-                    <div class="card-body">
-                        <div class="input-group mb-2">
-                            <span class="input-group-text" style="width: 75px;">ĐIỆN</span>
-                            <span class="input-group-text" id="bill-so-dien"></span>
-                            <input type="text" class="form-control text-end" id="bill-tien-dien" disabled>
-                            <span class="input-group-text">VND</span>
-                        </div>
-
-                        <div class="input-group mb-2">
-                            <span class="input-group-text" style="width: 75px;">NƯỚC</span>
-                            <span class="input-group-text" id="bill-so-nuoc"></span>
-                            <input type="text" class="form-control text-end" id="bill-tien-nuoc" disabled>
-                            <span class="input-group-text">VND</span>
-                        </div>
-
-                        <div class="input-group mb-2">
-                            <span class="input-group-text" style="width: 75px;">RÁC</span>
-                            <span class="input-group-text" id="bill-so-rac"></span>
-                            <input type="text" class="form-control text-end" id="bill-tien-rac" disabled>
-                            <span class="input-group-text">VND</span>
-                        </div>
-
-                        <div class="input-group">
-                            <span class="input-group-text" style="width: 75px;">THUÊ</span>
-                            <span class="input-group-text">1</span>
-                            <input type="text" class="form-control text-end" id="bill-tien-thue" disabled>
-                            <span class="input-group-text">VND</span>
-                        </div>
-                    </div>
-
-                    <div class="card-footer fs-5">
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    <span class="input-group-text fw-bold" style="width: 75px;">TỔNG</span>
-                                    <input type="text" class="form-control text-end" id="bill-tong" disabled>
-                                    <span class="input-group-text">VND</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-
-                <div class="card">
+                <div class="card" id="card-bill">
                     <div class="card-header text-center">
                         <span class="badge text-bg-secondary fs-2 mb-1 mt-1">TIỀN TRỌ</span><br>
                         <span class="text-secondary fs-5" id="bill-date"></span>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body p-0">
                         <table class="table table-sm table-bordered fs-6 mb-0">
                             <thead class="table-dark">
                                 <tr>
@@ -314,6 +265,19 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
+                                <button type="button" class="btn btn-outline-primary w-100 fs-4"
+                                    onclick="captureAndShare()">
+                                    Gửi bill
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card text-center mt-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
                                 <button type="button" class="btn btn-outline-dark w-100 fs-4" onclick="reset()">
                                     Nhập mới
                                 </button>
@@ -326,6 +290,7 @@
     </div>
 
     <script src="./assets/js/bootstrap.bundle.min.js"></script>
+    <script src="./assets/js/html2canvas.min.js.js"></script>
     <script src="./assets/js/index.js"></script>
     <script src="./assets/js/serviceWorker.js"></script>
 </body>
