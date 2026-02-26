@@ -186,8 +186,7 @@ function processGiaThue() {
 
 async function captureAndShare() {
     try {
-        const now = new Date();
-        const date = now.toISOString();
+        const date = document.getElementById("bill-date").innerText;
         const canvas = await html2canvas(document.getElementById("card-bill"));
 
         canvas.toBlob(async (blob) => {
