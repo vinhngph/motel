@@ -123,3 +123,15 @@ function processGiaThue() {
 
     calculatingResult();
 }
+
+function reset() {
+    document.getElementById("so-dien-cu").value = "";
+    document.getElementById("so-dien-moi").value = "";
+
+    document.getElementById("so-nuoc-cu").value = "";
+    document.getElementById("so-nuoc-moi").value = "";
+
+    document.querySelector(".gia-thue-choice.active").classList.remove("active");
+
+    nextModal("modal-bill", "modal-dien");
+}
