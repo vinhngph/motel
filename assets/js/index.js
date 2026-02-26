@@ -1,3 +1,6 @@
+const DIEN_RATE = 3500;
+const NUOC_RATE = 3000;
+
 function nextModal(prevId, nextId) {
     document.getElementById(prevId).setAttribute("hidden", "");
     document.getElementById(nextId).removeAttribute("hidden");
@@ -47,16 +50,19 @@ function processNuoc() {
     const step = "nuoc";
 
     const soNuocCu = document.getElementById("so-nuoc-cu").value;
-    if (soNuocCu === "") return notification(step, "Chưa nhập số nước cũ!");
-    if (Number(soNuocCu) < 0) return notification(step, "Số nước lớn hơn hoặc bằng 0!");
+    if (soNuocCu !== "") {
+        if (Number(soNuocCu) < 0) return notification(step, "Số nước lớn hơn hoặc bằng 0!");
+    };
 
     const soNuocMoi = document.getElementById("so-nuoc-moi").value;
-    if (soNuocMoi === "") return notification(step, "Chưa nhập số nước mới!");
-    if (Number(soNuocMoi) < 0) return notification(step, "Số nước lớn hơn hoặc bằng 0!");
+    if (soNuocMoi !== "") {
+        if (Number(soNuocMoi) < 0) return notification(step, "Số nước lớn hơn hoặc bằng 0!");
+    };
 
-    if (!Number.isInteger(Number(soNuocCu)) || !Number.isInteger(Number(soNuocMoi))) return notification(step, "Số nước phải là số nguyên!");
-
-    if (Number(soNuocMoi) - Number(soNuocCu) <= 0) return notification(step, "Số nước mới phải lớn hơn số nước cũ!");
+    if (soNuocCu !== "" && soNuocMoi !== "") {
+        if (!Number.isInteger(Number(soNuocCu)) || !Number.isInteger(Number(soNuocMoi))) return notification(step, "Số nước phải là số nguyên!");
+        if (Number(soNuocMoi) - Number(soNuocCu) <= 0) return notification(step, "Số nước mới phải lớn hơn số nước cũ!");
+    }
 
     nextModal("modal-nuoc", "modal-rac");
 }
@@ -75,15 +81,15 @@ function processGiaThueChoice(element) {
     }
 }
 
+function processTienRac(element) {
+    element.classList.contains("active") ? element.classList.remove("active") : element.classList.add("active");
+}
+
 function parseVND(num) {
     return num.toLocaleString("vi-VN");
 }
 
 function calculatingResult() {
-    const DIEN_RATE = 3500;
-    const NUOC_RATE = 3500;
-    const RAC_RATE = 3500;
-
     const soDienCu = document.getElementById("so-dien-cu").value;
     const soDienMoi = document.getElementById("so-dien-moi").value;
     const soDien = (Number(soDienMoi) - Number(soDienCu));
@@ -96,7 +102,10 @@ function calculatingResult() {
 
     const tienThue = Number(document.querySelector(".gia-thue-choice.active").innerText.replace(/\./g, ""));
 
-    const tong = tienDien + tienNuoc + RAC_RATE + tienThue;
+    const tienRacEl = document.querySelector(".tien-rac.active")
+    const tienRac = tienRacEl ? Number(tienRacEl.innerText.replace(/\./g, "")) : 0;
+
+    const tong = tienDien + tienNuoc + tienRac + tienThue;
 
     const now = new Date();
     document.getElementById("bill-date").innerText = `${now.toLocaleTimeString("vi-VN")} - ${now.toLocaleDateString("vi-VN")}`;
@@ -107,7 +116,9 @@ function calculatingResult() {
     document.getElementById("bill-so-nuoc").innerText = soNuoc;
     document.getElementById("bill-tien-nuoc").value = parseVND(tienNuoc);
 
-    document.getElementById("bill-tien-rac").value = parseVND(RAC_RATE);
+    document.getElementById("bill-so-rac").innerText = tienRacEl ? "1" : 0;
+    document.getElementById("bill-tien-rac").value = parseVND(tienRac);
+
     document.getElementById("bill-tien-thue").value = parseVND(tienThue);
 
     document.getElementById("bill-tong").value = parseVND(tong);
@@ -131,7 +142,8 @@ function reset() {
     document.getElementById("so-nuoc-cu").value = "";
     document.getElementById("so-nuoc-moi").value = "";
 
-    document.querySelector(".gia-thue-choice.active").classList.remove("active");
+    document.querySelector(".gia-thue-choice.active")?.classList.remove("active");
+    document.querySelector(".tien-rac.active")?.classList.remove("active");
 
     nextModal("modal-bill", "modal-dien");
 }
