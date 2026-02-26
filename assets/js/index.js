@@ -86,7 +86,63 @@ function processTienRac(element) {
 }
 
 function parseVND(num) {
-    return num.toLocaleString("vi-VN");
+    const vndFormatter = new Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND"
+    })
+
+    return vndFormatter.format(num);
+}
+
+function addingRow(loai, cu, moi, gia) {
+    const table = document.getElementById("bill-table");
+    const tr = document.createElement("tr");
+
+    const loaiNode = document.createElement("th");
+    loaiNode.scope = "row";
+    loaiNode.innerText = loai;
+    tr.appendChild(loaiNode);
+
+    const cuNode = document.createElement("td");
+    cuNode.innerText = cu;
+    tr.appendChild(cuNode);
+
+    const moiNode = document.createElement("td");
+    moiNode.innerText = moi;
+    tr.appendChild(moiNode);
+
+    const soLuongNode = document.createElement("td");
+    soLuongNode.innerText = moi - cu;
+    tr.appendChild(soLuongNode);
+
+    const giaNode = document.createElement("td");
+    giaNode.innerText = parseVND(gia);
+    giaNode.className = "text-end"
+    tr.appendChild(giaNode);
+
+    const tongNode = document.createElement("td");
+    tongNode.innerText = parseVND(gia * (moi - cu));
+    tongNode.className = "text-end";
+    tr.appendChild(tongNode);
+
+    table.appendChild(tr);
+}
+
+function addingFinalRow(...data) {
+    const table = document.getElementById("bill-table");
+    const tr = document.createElement("tr");
+
+    const tenNode = document.createElement("th");
+    tenNode.scope = "row";
+    tenNode.colSpan = "5";
+    tenNode.innerText = "Tổng cộng";
+    tr.appendChild(tenNode);
+
+    const tongNode = document.createElement("td");
+    tongNode.innerText = parseVND(data.reduce((acc, curr) => acc + curr, 0));
+    tr.appendChild(tongNode);
+
+    table.appendChild(tr);
 }
 
 function calculatingResult() {
@@ -105,23 +161,15 @@ function calculatingResult() {
     const tienRacEl = document.querySelector(".tien-rac.active")
     const tienRac = tienRacEl ? Number(tienRacEl.innerText.replace(/\./g, "")) : 0;
 
-    const tong = tienDien + tienNuoc + tienRac + tienThue;
-
     const now = new Date();
     document.getElementById("bill-date").innerText = `${now.toLocaleTimeString("vi-VN")} - ${now.toLocaleDateString("vi-VN")}`;
 
-    document.getElementById("bill-so-dien").innerText = soDien;
-    document.getElementById("bill-tien-dien").value = parseVND(tienDien);
+    if (soDien > 0) addingRow("Điện", Number(soDienCu), Number(soDienMoi), DIEN_RATE);
+    if (soNuoc > 0) addingRow("Nước", Number(soNuocCu), Number(soNuocMoi), NUOC_RATE);
+    if (tienRacEl) addingRow("Rác", 0, 1, tienRac);
+    if (tienThue) addingRow("Thuê", 0, 1, tienThue);
 
-    document.getElementById("bill-so-nuoc").innerText = soNuoc;
-    document.getElementById("bill-tien-nuoc").value = parseVND(tienNuoc);
-
-    document.getElementById("bill-so-rac").innerText = tienRacEl ? "1" : 0;
-    document.getElementById("bill-tien-rac").value = parseVND(tienRac);
-
-    document.getElementById("bill-tien-thue").value = parseVND(tienThue);
-
-    document.getElementById("bill-tong").value = parseVND(tong);
+    addingFinalRow(tienDien, tienNuoc, tienRac, tienThue);
 
     nextModal("modal-thue", "modal-bill");
 }
@@ -144,6 +192,8 @@ function reset() {
 
     document.querySelector(".gia-thue-choice.active")?.classList.remove("active");
     document.querySelector(".tien-rac.active")?.classList.remove("active");
+
+    document.getElementById("bill-table").childNodes.forEach(e => e.remove());
 
     nextModal("modal-bill", "modal-dien");
 }

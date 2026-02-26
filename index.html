@@ -41,12 +41,14 @@
                     </div>
                     <div class="card-body">
                         <div class="input-group mb-3" style="height: 65px;">
+                            <span class="input-group-text" style="width: 55px;">Cũ</span>
                             <input class="form-control" type="number" placeholder="Số điện cũ" id="so-dien-cu"
                                 aria-label="Số điện cũ" min="0" step="1" pattern="\d*" autocomplete="off"
                                 autocapitalize="off" autocorrect="off">
                             <span class="input-group-text">Số</span>
                         </div>
                         <div class="input-group" style="height: 65px;">
+                            <span class="input-group-text" style="width: 55px;">Mới</span>
                             <input class="form-control" type="number" placeholder="Số điện mới" id="so-dien-moi"
                                 aria-label="Số điện mới" min="0" step="1" pattern="\d*" autocomplete="off"
                                 autocapitalize="off" autocorrect="off">
@@ -83,12 +85,14 @@
                     </div>
                     <div class="card-body">
                         <div class="input-group mb-3" style="height: 65px;">
+                            <span class="input-group-text" style="width: 55px;">Cũ</span>
                             <input class="form-control" type="number" placeholder="Số nước cũ" id="so-nuoc-cu"
                                 aria-label="Số nước cũ" min="0" step="1" pattern="\d*" autocomplete="off"
                                 autocapitalize="off" autocorrect="off">
                             <span class="input-group-text">Số</span>
                         </div>
                         <div class="input-group" style="height: 65px;">
+                            <span class="input-group-text" style="width: 55px;">Mới</span>
                             <input class="form-control" type="number" placeholder="Số nước mới" id="so-nuoc-moi"
                                 aria-label="Số nước mới" min="0" step="1" pattern="\d*" autocomplete="off"
                                 autocapitalize="off" autocorrect="off">
@@ -234,42 +238,39 @@
         <!-- BILL -->
         <div class="row align-items-center" style="height: 100vh;" id="modal-bill" hidden>
             <div class="col">
-                <div class="card text-center">
+                <!-- <div class="card text-center">
                     <div class="card-header">
                         <span class="badge text-bg-secondary fs-2 mb-1 mt-1">TIỀN TRỌ</span><br>
                         <span class="text-secondary fs-5" id="bill-date"></span>
                     </div>
 
                     <div class="card-body">
-                        <div class="row">
-                            <div class="input-group mb-2">
-                                <span class="input-group-text" style="width: 75px;">ĐIỆN</span>
-                                <span class="input-group-text" id="bill-so-dien"></span>
-                                <input type="text" class="form-control text-end" id="bill-tien-dien" disabled>
-                                <span class="input-group-text">VND</span>
-                            </div>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" style="width: 75px;">ĐIỆN</span>
+                            <span class="input-group-text" id="bill-so-dien"></span>
+                            <input type="text" class="form-control text-end" id="bill-tien-dien" disabled>
+                            <span class="input-group-text">VND</span>
+                        </div>
 
-                            <div class="input-group mb-2">
-                                <span class="input-group-text" style="width: 75px;">NƯỚC</span>
-                                <span class="input-group-text" id="bill-so-nuoc"></span>
-                                <input type="text" class="form-control text-end" id="bill-tien-nuoc" disabled>
-                                <span class="input-group-text">VND</span>
-                            </div>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" style="width: 75px;">NƯỚC</span>
+                            <span class="input-group-text" id="bill-so-nuoc"></span>
+                            <input type="text" class="form-control text-end" id="bill-tien-nuoc" disabled>
+                            <span class="input-group-text">VND</span>
+                        </div>
 
-                            <div class="input-group mb-2">
-                                <span class="input-group-text" style="width: 75px;">RÁC</span>
-                                <span class="input-group-text" id="bill-so-rac"></span>
-                                <input type="text" class="form-control text-end" id="bill-tien-rac" disabled>
-                                <span class="input-group-text">VND</span>
-                            </div>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" style="width: 75px;">RÁC</span>
+                            <span class="input-group-text" id="bill-so-rac"></span>
+                            <input type="text" class="form-control text-end" id="bill-tien-rac" disabled>
+                            <span class="input-group-text">VND</span>
+                        </div>
 
-
-                            <div class="input-group">
-                                <span class="input-group-text" style="width: 75px;">THUÊ</span>
-                                <span class="input-group-text">1</span>
-                                <input type="text" class="form-control text-end" id="bill-tien-thue" disabled>
-                                <span class="input-group-text">VND</span>
-                            </div>
+                        <div class="input-group">
+                            <span class="input-group-text" style="width: 75px;">THUÊ</span>
+                            <span class="input-group-text">1</span>
+                            <input type="text" class="form-control text-end" id="bill-tien-thue" disabled>
+                            <span class="input-group-text">VND</span>
                         </div>
                     </div>
 
@@ -283,6 +284,29 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div> -->
+
+                <div class="card">
+                    <div class="card-header text-center">
+                        <span class="badge text-bg-secondary fs-2 mb-1 mt-1">TIỀN TRỌ</span><br>
+                        <span class="text-secondary fs-5" id="bill-date"></span>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-sm table-bordered fs-6 mb-0">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col">Loại</th>
+                                    <th scope="col">Cũ</th>
+                                    <th scope="col">Mới</th>
+                                    <th scope="col">Số</th>
+                                    <th scope="col">Giá</th>
+                                    <th scope="col">Tổng</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-group-divider" id="bill-table">
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
