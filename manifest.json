@@ -1,0 +1,21 @@
+{
+    "name": "Trọ Mười",
+    "short_name": "TroMuoi",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#e2e3e5",
+    "theme_color": "#e2e3e5",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "/assets/icons/motel_192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/assets/icons/motel_512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
