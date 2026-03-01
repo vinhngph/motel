@@ -85,11 +85,17 @@ function processTienRac(element) {
     element.classList.contains("active") ? element.classList.remove("active") : element.classList.add("active");
 }
 
-function parseVND(num) {
+function parseVNDWithStyle(num) {
     const vndFormatter = new Intl.NumberFormat("vi-VN", {
         style: "currency",
         currency: "VND"
     })
+
+    return vndFormatter.format(num);
+}
+
+function parseVND(num) {
+    const vndFormatter = new Intl.NumberFormat("vi-VN");
 
     return vndFormatter.format(num);
 }
@@ -121,7 +127,7 @@ function addingRow(loai, cu, moi, gia) {
     tr.appendChild(giaNode);
 
     const tongNode = document.createElement("td");
-    tongNode.innerText = parseVND(gia * (moi - cu));
+    tongNode.innerText = parseVNDWithStyle(gia * (moi - cu));
     tongNode.className = "text-end";
     tr.appendChild(tongNode);
 
@@ -135,12 +141,13 @@ function addingFinalRow(...data) {
     const tenNode = document.createElement("th");
     tenNode.scope = "row";
     tenNode.colSpan = "5";
+    tenNode.className = "text-center"
     tenNode.innerText = "Tổng cộng";
     tr.appendChild(tenNode);
 
     const tongNode = document.createElement("td");
     tongNode.className = "text-end";
-    tongNode.innerText = parseVND(data.reduce((acc, curr) => acc + curr, 0));
+    tongNode.innerText = parseVNDWithStyle(data.reduce((acc, curr) => acc + curr, 0));
     tr.appendChild(tongNode);
 
     table.appendChild(tr);

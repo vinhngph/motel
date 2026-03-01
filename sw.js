@@ -6,6 +6,7 @@ const urlsToCache = [
     "/manifest.json",
     "/assets/css/bootstrap.min.css",
     "/assets/js/bootstrap.bundle.min.js",
+    "/assets/js/html2canvas.min.js.js",
     "/assets/js/index.js",
     "/assets/icons/motel_192.png",
     "/assets/icons/motel_512.png"
