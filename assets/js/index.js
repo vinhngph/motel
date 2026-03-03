@@ -81,6 +81,20 @@ function processGiaThueChoice(element) {
     }
 }
 
+function processGiaNuocChoice(element) {
+    if (element.classList.contains("active")) return;
+
+    element.classList.add("active");
+
+    const choices = document.querySelectorAll(".gia-nuoc-choice");
+
+    for (const e of choices) {
+        if (e === element) continue;
+
+        e.classList.remove("active");
+    }
+}
+
 function processTienRac(element) {
     element.classList.contains("active") ? element.classList.remove("active") : element.classList.add("active");
 }
@@ -114,11 +128,11 @@ function addingRow(loai, cu, moi, gia) {
     tr.appendChild(cuNode);
 
     const moiNode = document.createElement("td");
-    moiNode.innerText = moi;
+    moiNode.innerText = Number.isInteger(moi) ? moi : moi.toFixed(2);
     tr.appendChild(moiNode);
 
     const soLuongNode = document.createElement("td");
-    soLuongNode.innerText = moi - cu;
+    soLuongNode.innerText = Number.isInteger(moi) ? moi - cu : (moi - cu).toFixed(2);
     tr.appendChild(soLuongNode);
 
     const giaNode = document.createElement("td");
@@ -160,8 +174,17 @@ function calculatingResult() {
     const tienDien = soDien * DIEN_RATE;
 
     const soNuocCu = document.getElementById("so-nuoc-cu").value;
-    const soNuocMoi = document.getElementById("so-nuoc-moi").value;
-    const soNuoc = Number(soNuocMoi) - Number(soNuocCu);
+    let soNuocMoi = document.getElementById("so-nuoc-moi").value;
+
+    let soNuoc = Number(soNuocMoi) - Number(soNuocCu);
+    if (soNuoc === 0) {
+        const nuocEl = document.querySelector(".gia-nuoc-choice.active");
+        if (nuocEl) {
+            const giaNuocSpecial = Number(nuocEl.innerText.replace(/\./g, ""));
+            soNuoc = giaNuocSpecial / NUOC_RATE;
+            soNuocMoi = soNuoc;
+        }
+    }
     const tienNuoc = soNuoc * NUOC_RATE;
 
     const tienThue = Number(document.querySelector(".gia-thue-choice.active").innerText.replace(/\./g, ""));
@@ -227,6 +250,7 @@ function reset() {
 
     document.getElementById("so-nuoc-cu").value = "";
     document.getElementById("so-nuoc-moi").value = "";
+    document.querySelector(".gia-nuoc-choice.active")?.classList.remove("active");
 
     document.querySelector(".gia-thue-choice.active")?.classList.remove("active");
     document.querySelector(".tien-rac.active")?.classList.remove("active");
