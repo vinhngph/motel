@@ -82,9 +82,7 @@ function processGiaThueChoice(element) {
 }
 
 function processGiaNuocChoice(element) {
-    if (element.classList.contains("active")) return;
-
-    element.classList.add("active");
+    element.classList.contains("active") ? element.classList.remove("active") : element.classList.add("active");
 
     const choices = document.querySelectorAll(".gia-nuoc-choice");
 
@@ -93,6 +91,9 @@ function processGiaNuocChoice(element) {
 
         e.classList.remove("active");
     }
+
+    document.querySelector("#so-nuoc-cu").value = "";
+    document.querySelector("#so-nuoc-moi").value = "";
 }
 
 function processTienRac(element) {
@@ -259,3 +260,15 @@ function reset() {
 
     nextModal("modal-bill", "modal-dien");
 }
+
+document.querySelector("#so-nuoc-cu").addEventListener("input", (e) => {
+    document.querySelectorAll(".gia-nuoc-choice").forEach((e) => {
+        e.classList.remove("active");
+    });
+})
+
+document.querySelector("#so-nuoc-moi").addEventListener("input", (e) => {
+    document.querySelectorAll(".gia-nuoc-choice").forEach((e) => {
+        e.classList.remove("active");
+    });
+})
