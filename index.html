@@ -36,10 +36,15 @@
                 <div class="card text-center">
                     <div class="card-header">
                         <span class="badge text-bg-warning fs-2 mb-1 mt-1">ĐIỆN</span><br>
-                        <span class="fw-bold fs-3">3.500</span><br>
-                        <span class="text-secondary">VND / Số</span>
                     </div>
                     <div class="card-body">
+                        <div class="input-group mb-3" style="height: 65px;">
+                            <span class="input-group-text" style="width: 55px;">Giá</span>
+                            <input class="form-control" type="text" placeholder="Giá điện" id="gia-dien"
+                                aria-label="Giá điện" pattern="\d*" autocomplete="off"
+                                autocapitalize="off" autocorrect="off">
+                            <span class="input-group-text">VNĐ</span>
+                        </div>
                         <div class="input-group mb-3" style="height: 65px;">
                             <span class="input-group-text" style="width: 55px;">Cũ</span>
                             <input class="form-control" type="number" placeholder="Số điện cũ" id="so-dien-cu"

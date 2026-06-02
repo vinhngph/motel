@@ -1,4 +1,3 @@
-const DIEN_RATE = 3500;
 const NUOC_RATE = 3000;
 
 function nextModal(prevId, nextId) {
@@ -19,7 +18,7 @@ function notification(step, msg) {
     content.role = "alert";
     content.innerText = msg;
 
-    container.childNodes.forEach(e => e.remove());
+    container.childNodes.forEach((e) => e.remove());
     container.appendChild(content);
 
     setTimeout(() => {
@@ -30,18 +29,29 @@ function notification(step, msg) {
 function processDien() {
     const step = "dien";
 
+    const giaDien = document.getElementById("gia-dien").value.replace(/\D/g, "");
+    if (Number(giaDien) <= 0)
+        return notification(step, "Giá điện phải lớn hơn 0!");
+
     const soDienCu = document.getElementById("so-dien-cu").value;
 
     if (soDienCu === "") return notification(step, "Chưa nhập số điện cũ!");
-    if (Number(soDienCu) < 0) return notification(step, "Số điện lớn hơn hoặc bằng 0!");
+    if (Number(soDienCu) < 0)
+        return notification(step, "Số điện lớn hơn hoặc bằng 0!");
 
     const soDienMoi = document.getElementById("so-dien-moi").value;
     if (soDienMoi === "") return notification(step, "Chưa nhập số điện mới!");
-    if (Number(soDienMoi) < 0) return notification(step, "Số điện lớn hơn hoặc bằng 0!");
+    if (Number(soDienMoi) < 0)
+        return notification(step, "Số điện lớn hơn hoặc bằng 0!");
 
-    if (!Number.isInteger(Number(soDienCu)) || !Number.isInteger(Number(soDienMoi))) return notification(step, "Số điện phải là số nguyên!");
+    if (
+        !Number.isInteger(Number(soDienCu)) ||
+        !Number.isInteger(Number(soDienMoi))
+    )
+        return notification(step, "Số điện phải là số nguyên!");
 
-    if (Number(soDienMoi) - Number(soDienCu) <= 0) return notification(step, "Số điện mới phải lớn hơn số điện cũ!");
+    if (Number(soDienMoi) - Number(soDienCu) <= 0)
+        return notification(step, "Số điện mới phải lớn hơn số điện cũ!");
 
     nextModal("modal-dien", "modal-nuoc");
 }
@@ -51,17 +61,24 @@ function processNuoc() {
 
     const soNuocCu = document.getElementById("so-nuoc-cu").value;
     if (soNuocCu !== "") {
-        if (Number(soNuocCu) < 0) return notification(step, "Số nước lớn hơn hoặc bằng 0!");
-    };
+        if (Number(soNuocCu) < 0)
+            return notification(step, "Số nước lớn hơn hoặc bằng 0!");
+    }
 
     const soNuocMoi = document.getElementById("so-nuoc-moi").value;
     if (soNuocMoi !== "") {
-        if (Number(soNuocMoi) < 0) return notification(step, "Số nước lớn hơn hoặc bằng 0!");
-    };
+        if (Number(soNuocMoi) < 0)
+            return notification(step, "Số nước lớn hơn hoặc bằng 0!");
+    }
 
     if (soNuocCu !== "" && soNuocMoi !== "") {
-        if (!Number.isInteger(Number(soNuocCu)) || !Number.isInteger(Number(soNuocMoi))) return notification(step, "Số nước phải là số nguyên!");
-        if (Number(soNuocMoi) - Number(soNuocCu) <= 0) return notification(step, "Số nước mới phải lớn hơn số nước cũ!");
+        if (
+            !Number.isInteger(Number(soNuocCu)) ||
+            !Number.isInteger(Number(soNuocMoi))
+        )
+            return notification(step, "Số nước phải là số nguyên!");
+        if (Number(soNuocMoi) - Number(soNuocCu) <= 0)
+            return notification(step, "Số nước mới phải lớn hơn số nước cũ!");
     }
 
     nextModal("modal-nuoc", "modal-rac");
@@ -82,7 +99,9 @@ function processGiaThueChoice(element) {
 }
 
 function processGiaNuocChoice(element) {
-    element.classList.contains("active") ? element.classList.remove("active") : element.classList.add("active");
+    element.classList.contains("active")
+        ? element.classList.remove("active")
+        : element.classList.add("active");
 
     const choices = document.querySelectorAll(".gia-nuoc-choice");
 
@@ -97,14 +116,16 @@ function processGiaNuocChoice(element) {
 }
 
 function processTienRac(element) {
-    element.classList.contains("active") ? element.classList.remove("active") : element.classList.add("active");
+    element.classList.contains("active")
+        ? element.classList.remove("active")
+        : element.classList.add("active");
 }
 
 function parseVNDWithStyle(num) {
     const vndFormatter = new Intl.NumberFormat("vi-VN", {
         style: "currency",
-        currency: "VND"
-    })
+        currency: "VND",
+    });
 
     return vndFormatter.format(num);
 }
@@ -133,12 +154,14 @@ function addingRow(loai, cu, moi, gia) {
     tr.appendChild(moiNode);
 
     const soLuongNode = document.createElement("td");
-    soLuongNode.innerText = Number.isInteger(moi) ? moi - cu : (moi - cu).toFixed(2);
+    soLuongNode.innerText = Number.isInteger(moi)
+        ? moi - cu
+        : (moi - cu).toFixed(2);
     tr.appendChild(soLuongNode);
 
     const giaNode = document.createElement("td");
     giaNode.innerText = parseVND(gia);
-    giaNode.className = "text-end"
+    giaNode.className = "text-end";
     tr.appendChild(giaNode);
 
     const tongNode = document.createElement("td");
@@ -156,23 +179,27 @@ function addingFinalRow(...data) {
     const tenNode = document.createElement("th");
     tenNode.scope = "row";
     tenNode.colSpan = "5";
-    tenNode.className = "text-center"
+    tenNode.className = "text-center";
     tenNode.innerText = "Tổng cộng";
     tr.appendChild(tenNode);
 
     const tongNode = document.createElement("td");
     tongNode.className = "text-end";
-    tongNode.innerText = parseVNDWithStyle(data.reduce((acc, curr) => acc + curr, 0));
+    tongNode.innerText = parseVNDWithStyle(
+        data.reduce((acc, curr) => acc + curr, 0),
+    );
     tr.appendChild(tongNode);
 
     table.appendChild(tr);
 }
 
 function calculatingResult() {
+    const giaDien = document.getElementById("gia-dien").value.replace(/\D/g, "");
     const soDienCu = document.getElementById("so-dien-cu").value;
     const soDienMoi = document.getElementById("so-dien-moi").value;
-    const soDien = (Number(soDienMoi) - Number(soDienCu));
-    const tienDien = soDien * DIEN_RATE;
+
+    const soDien = Number(soDienMoi) - Number(soDienCu);
+    const tienDien = soDien * Number(giaDien);
 
     const soNuocCu = document.getElementById("so-nuoc-cu").value;
     let soNuocMoi = document.getElementById("so-nuoc-moi").value;
@@ -188,16 +215,25 @@ function calculatingResult() {
     }
     const tienNuoc = soNuoc * NUOC_RATE;
 
-    const tienThue = Number(document.querySelector(".gia-thue-choice.active").innerText.replace(/\./g, ""));
+    const tienThue = Number(
+        document
+            .querySelector(".gia-thue-choice.active")
+            .innerText.replace(/\./g, ""),
+    );
 
-    const tienRacEl = document.querySelector(".tien-rac.active")
-    const tienRac = tienRacEl ? Number(tienRacEl.innerText.replace(/\./g, "")) : 0;
+    const tienRacEl = document.querySelector(".tien-rac.active");
+    const tienRac = tienRacEl
+        ? Number(tienRacEl.innerText.replace(/\./g, ""))
+        : 0;
 
     const now = new Date();
-    document.getElementById("bill-date").innerText = `${now.toLocaleTimeString("vi-VN")} - ${now.toLocaleDateString("vi-VN")}`;
+    document.getElementById("bill-date").innerText =
+        `${now.toLocaleTimeString("vi-VN")} - ${now.toLocaleDateString("vi-VN")}`;
 
-    if (soDien > 0) addingRow("Điện", Number(soDienCu), Number(soDienMoi), DIEN_RATE);
-    if (soNuoc > 0) addingRow("Nước", Number(soNuocCu), Number(soNuocMoi), NUOC_RATE);
+    if (soDien > 0)
+        addingRow("Điện", Number(soDienCu), Number(soDienMoi), giaDien);
+    if (soNuoc > 0)
+        addingRow("Nước", Number(soNuocCu), Number(soNuocMoi), NUOC_RATE);
     if (tienRacEl) addingRow("Rác", 0, 1, tienRac);
     if (tienThue) addingRow("Thuê", 0, 1, tienThue);
 
@@ -223,12 +259,14 @@ async function captureAndShare() {
         canvas.toBlob(async (blob) => {
             if (!blob) return;
 
-            const imageFile = new File([blob], `${date}.png`, { type: "image/png" });
+            const imageFile = new File([blob], `${date}.png`, {
+                type: "image/png",
+            });
 
             const shareData = {
                 title: `Hoá đơn ${date}`,
-                files: [imageFile]
-            }
+                files: [imageFile],
+            };
 
             if (navigator.canShare && navigator.canShare(shareData)) {
                 try {
@@ -251,9 +289,13 @@ function reset() {
 
     document.getElementById("so-nuoc-cu").value = "";
     document.getElementById("so-nuoc-moi").value = "";
-    document.querySelector(".gia-nuoc-choice.active")?.classList.remove("active");
+    document
+        .querySelector(".gia-nuoc-choice.active")
+        ?.classList.remove("active");
 
-    document.querySelector(".gia-thue-choice.active")?.classList.remove("active");
+    document
+        .querySelector(".gia-thue-choice.active")
+        ?.classList.remove("active");
     document.querySelector(".tien-rac.active")?.classList.remove("active");
 
     document.querySelector("#bill-table").replaceChildren();
@@ -265,10 +307,20 @@ document.querySelector("#so-nuoc-cu").addEventListener("input", (e) => {
     document.querySelectorAll(".gia-nuoc-choice").forEach((e) => {
         e.classList.remove("active");
     });
-})
+});
 
 document.querySelector("#so-nuoc-moi").addEventListener("input", (e) => {
     document.querySelectorAll(".gia-nuoc-choice").forEach((e) => {
         e.classList.remove("active");
     });
-})
+});
+
+document.querySelector("#gia-dien").addEventListener("input", (e) => {
+    let value = e.target.value.replace(/\D/g, "");
+
+    if (value === "") {
+        e.target.value = "";
+        return;
+    }
+    e.target.value = Number(value).toLocaleString("vi-VN");
+});
