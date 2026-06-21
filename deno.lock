@@ -17,7 +17,8 @@
     "npm:tailwindcss@^4.3.1": "4.3.1",
     "npm:typescript-eslint@^8.59.2": "8.61.1_eslint@10.5.0_typescript@6.0.3",
     "npm:typescript@~6.0.2": "6.0.3",
-    "npm:vite@^8.0.12": "8.0.16_@types+node@24.13.2"
+    "npm:vite@^8.0.12": "8.0.16_@types+node@24.13.2",
+    "npm:zustand@^5.0.14": "5.0.14_@types+react@19.2.17_react@19.2.7"
   },
   "npm": {
     "@babel/code-frame@7.29.7": {
@@ -1223,6 +1224,17 @@
     },
     "zod@4.4.3": {
       "integrity": "sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ=="
+    },
+    "zustand@5.0.14_@types+react@19.2.17_react@19.2.7": {
+      "integrity": "sha512-/8tAspM5LMPr28b3fwLYrtdj77ECpfZviaP75CMTnwO8ISyaE4GDIG/9rDDYq/cH9D2Xw2A2RXglLInmVBQB/g==",
+      "dependencies": [
+        "@types/react",
+        "react"
+      ],
+      "optionalPeers": [
+        "@types/react",
+        "react"
+      ]
     }
   },
   "workspace": {
@@ -1244,7 +1256,8 @@
         "npm:tailwindcss@^4.3.1",
         "npm:typescript-eslint@^8.59.2",
         "npm:typescript@~6.0.2",
-        "npm:vite@^8.0.12"
+        "npm:vite@^8.0.12",
+        "npm:zustand@^5.0.14"
       ]
     }
   }
