@@ -1,9 +1,16 @@
-import { Share2, RefreshCw } from "lucide-react";
-import { useStore } from "../store";
+import { Share2, RefreshCw, Pencil } from "lucide-react";
+import { useStore, type Step } from "../store";
 import { formatVND, formatNumber } from "../lib/format";
 
+const STEP_MAP: Record<string, Step> = {
+  Điện: "dien",
+  Nước: "nuoc",
+  Rác: "rac",
+  Thuê: "thue",
+};
+
 export function StepBill() {
-  const { billRows, billDate, reset } = useStore();
+  const { billRows, billDate, reset, setStep } = useStore();
 
   const total = billRows.reduce((acc, r) => acc + r.gia * (r.moi - r.cu), 0);
 
@@ -12,6 +19,13 @@ export function StepBill() {
     Nước: "text-blue-600 bg-blue-50",
     Rác: "text-gray-600 bg-gray-100",
     Thuê: "text-emerald-700 bg-emerald-50",
+  };
+
+  const BORDER_HOVER: Record<string, string> = {
+    Điện: "active:border-amber-300 active:bg-amber-50/40",
+    Nước: "active:border-blue-300 active:bg-blue-50/40",
+    Rác: "active:border-gray-300 active:bg-gray-50",
+    Thuê: "active:border-emerald-300 active:bg-emerald-50/40",
   };
 
   const ICONS: Record<string, string> = {
@@ -79,18 +93,27 @@ export function StepBill() {
             const tinh = row.gia * soLuong;
             const isCounter = row.loai === "Điện" || row.loai === "Nước";
             const colorClass = COLORS[row.loai] ?? "text-gray-700 bg-gray-50";
+            const hoverClass = BORDER_HOVER[row.loai] ?? "active:bg-gray-50";
+            const targetStep = STEP_MAP[row.loai];
 
             return (
-              <div key={row.loai} className="px-5 py-4">
+              <button
+                key={row.loai}
+                onClick={() => setStep(targetStep)}
+                className={`w-full text-left px-5 py-4 border-2 border-transparent transition-colors ${hoverClass}`}
+              >
                 <div className="flex items-center justify-between mb-2">
                   <span
                     className={`inline-flex items-center gap-1 text-xl font-bold px-3 py-1 rounded-xl ${colorClass}`}
                   >
                     {ICONS[row.loai]} {row.loai}
                   </span>
-                  <span className="text-2xl font-bold text-gray-800">
-                    {formatVND(tinh)}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-2xl font-bold text-gray-800">
+                      {formatVND(tinh)}
+                    </span>
+                    <Pencil size={16} className="text-gray-300 shrink-0" />
+                  </div>
                 </div>
                 {isCounter && (
                   <div className="flex gap-4 text-base text-gray-500 pl-1">
@@ -114,7 +137,7 @@ export function StepBill() {
                     {formatNumber(row.gia)} VNĐ / căn
                   </div>
                 )}
-              </div>
+              </button>
             );
           })}
         </div>
