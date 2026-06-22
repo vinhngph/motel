@@ -84,7 +84,7 @@ export function StepBill() {
       {/* Bill card */}
       <div
         id="bill-card"
-        className="bg-white rounded-3xl shadow-lg overflow-hidden"
+        className="bg-white shadow-lg overflow-hidden"
       >
         {/* Header */}
         <div className="bg-gray-800 px-6 py-5 text-center">
