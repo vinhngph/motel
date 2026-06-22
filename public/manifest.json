@@ -1,0 +1,21 @@
+{
+  "name": "Trọ Mười",
+  "short_name": "Trọ Mười",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#e2e3e5",
+  "theme_color": "#e2e3e5",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/motel_192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/motel_512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
