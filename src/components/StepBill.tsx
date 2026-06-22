@@ -59,7 +59,7 @@ export function StepBill() {
       });
 
       if (navigator.share && navigator.canShare?.({ files: [file] })) {
-        await navigator.share({ title: `Hoá đơn ${billDate}`, files: [file] });
+        await navigator.share({ files: [file] });
       } else {
         // Fallback: download ảnh
         const url = URL.createObjectURL(blob);
@@ -82,14 +82,11 @@ export function StepBill() {
   return (
     <div className="min-h-dvh bg-[#F7F6F2] flex flex-col px-4 py-6 gap-4">
       {/* Bill card */}
-      <div
-        id="bill-card"
-        className="bg-white shadow-lg overflow-hidden"
-      >
+      <div id="bill-card" className="bg-white shadow-lg overflow-hidden">
         {/* Header */}
         <div className="bg-gray-800 px-6 py-5 text-center">
           <div className="text-white text-3xl font-bold tracking-wide">
-            TIỀN TRỌ
+            HOÁ ĐƠN
           </div>
           <div className="text-gray-400 text-base mt-1">{billDate}</div>
         </div>
