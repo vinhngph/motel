@@ -1,4 +1,6 @@
-import { Share2, RefreshCw, Pencil } from "lucide-react";
+import { Share2, RefreshCw } from "lucide-react";
+import { useState } from "react";
+import { toPng } from "html-to-image";
 import { useStore, type Step } from "../store";
 import { formatVND, formatNumber } from "../lib/format";
 
@@ -11,6 +13,7 @@ const STEP_MAP: Record<string, Step> = {
 
 export function StepBill() {
   const { billRows, billDate, reset, setStep } = useStore();
+  const [sharing, setSharing] = useState(false);
 
   const total = billRows.reduce((acc, r) => acc + r.gia * (r.moi - r.cu), 0);
 
@@ -36,38 +39,43 @@ export function StepBill() {
   };
 
   async function handleShare() {
+    if (sharing) return;
+    setSharing(true);
     try {
       const el = document.getElementById("bill-card");
       if (!el) return;
-      const html2canvas = (
-        await import(
-          "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.esm.js" as any
-        )
-      ).default;
-      const canvas = await html2canvas(el, {
+
+      // html-to-image hỗ trợ oklch và modern CSS đầy đủ
+      const dataUrl = await toPng(el, {
+        pixelRatio: 2,
         backgroundColor: "#ffffff",
-        scale: 2,
       });
-      canvas.toBlob(async (blob: Blob | null) => {
-        if (!blob) return;
-        const file = new File([blob], `bill-${Date.now()}.png`, {
-          type: "image/png",
-        });
-        const shareData = { title: `Hoá đơn ${billDate}`, files: [file] };
-        if (navigator.canShare?.(shareData)) {
-          await navigator.share(shareData);
-        } else {
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = file.name;
-          a.click();
-          URL.revokeObjectURL(url);
-        }
-      }, "image/png");
+
+      // Convert dataUrl → Blob
+      const res = await fetch(dataUrl);
+      const blob = await res.blob();
+      const file = new File([blob], `tien-tro-${Date.now()}.png`, {
+        type: "image/png",
+      });
+
+      if (navigator.share && navigator.canShare?.({ files: [file] })) {
+        await navigator.share({ title: `Hoá đơn ${billDate}`, files: [file] });
+      } else {
+        // Fallback: download ảnh
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = file.name;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
     } catch (err) {
-      console.error(err);
-      alert("Không chia sẻ được!");
+      console.error("Share error:", err);
+      alert("Lỗi khi tạo ảnh bill!");
+    } finally {
+      setSharing(false);
     }
   }
 
@@ -112,7 +120,6 @@ export function StepBill() {
                     <span className="text-2xl font-bold text-gray-800">
                       {formatVND(tinh)}
                     </span>
-                    <Pencil size={16} className="text-gray-300 shrink-0" />
                   </div>
                 </div>
                 {isCounter && (
@@ -154,10 +161,11 @@ export function StepBill() {
       {/* Action buttons */}
       <button
         onClick={handleShare}
-        className="flex items-center justify-center gap-3 h-16 rounded-2xl bg-blue-600 text-white text-2xl font-bold active:bg-blue-700 transition-colors"
+        disabled={sharing}
+        className="flex items-center justify-center gap-3 h-16 rounded-2xl bg-blue-600 text-white text-2xl font-bold active:bg-blue-700 transition-colors disabled:opacity-60"
       >
         <Share2 size={26} />
-        Gửi Bill
+        {sharing ? "Đang xử lý..." : "Gửi Bill"}
       </button>
 
       <button
